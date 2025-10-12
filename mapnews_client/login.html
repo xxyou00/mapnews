@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Авторизация - MapNews</title>
+    <link rel="stylesheet" href="src/css/styles.css" />
+    <link rel="stylesheet" href="src/css/reset.css" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-cont">
+            <form class="login-form" id="loginForm">
+                <h2 style="text-align: center; margin-bottom: 2rem;">Вход в MapNews</h2>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Пароль</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="login-btn">Войти</button>
+                
+                <div class="login-links">   
+                    <a href="/" class="login-link">Продолжить без входа</a>
+                    <a href="/register.html" class="login-link">Зарегистрироваться</a>
+                </div>
+                <div class="error-message" id="errorMessage">
+                    Неверный email или пароль
+                </div>
+            </form>
+            <img src="./src/images/icons/logo.svg" alt="logo" class="logo-login">
+            
+        </div>
+    </div>
+
+
+    <script type="module">
+        import { AuthManager } from './src/api/auth.js';
+
+        const auth = new AuthManager();
+        
+        if (auth.isLoggedIn()) {
+            window.location.href = '/';
+        }
+
+        const loginForm = document.getElementById('loginForm');
+        const errorMessage = document.getElementById('errorMessage');
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            const success = await auth.login(email, password);
+            
+            if (success) {
+                window.location.href = '/';
+            } else {
+                errorMessage.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MapNews</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="src/css/styles.css" />
+    <link rel="stylesheet" href="src/css/reset.css" />
+    <script crossorigin src="https://cdn.jsdelivr.net/npm/@babel/standalone@7/babel.min.js"></script>
+    <script src="https://api-maps.yandex.ru/v3/?apikey=85daff78-40ea-4ef0-9a88-8f36b0551e66&lang=ru_RU"></script>
+</head>
+<body>
+
+    <div class="preloader" id="preloader">
+        <div class="preloader__content">
+            <div class="preloader__spinner"></div>
+            <img src="./src/images/icons/logo.svg" alt="MapNews" class="preloader__logo">
+        </div>
+    </div>
+
+    <header class="header" style="z-index: 2;">
+        <a class="header__user" id="userSection">
+            <img src="./src/images/icons/user.svg" class="header__user-img">
+            <p class="header__user-name" id="userName">
+                Аккаунт
+            </p>
+        </a>
+        <div class="menu">
+            <div class="menu__bar" id="menu_bar">
+                <div class="menu__bar-line"></div>
+                <div class="menu__bar-line"></div>
+                <div class="menu__bar-line"></div>
+            </div>
+                <ul class="menu__ul" id="head_menu">
+                    <li class="menu_ul_li" id="liked_menu_bar" id="liked_menu_bar">
+                        <div class="menu__ul_li-img_container">
+                            <img src="./src/images/icons/like.svg" class="menu__ul_li-img" id="liked_menu-img">
+                        </div>
+                        <p class="menu__ul_li-text">Избранное</p>
+                    </li>
+                    <ul class="menu__ul menu__ul_anoth" id="liked_menu">
+                        <li class="menu_ul_li">
+                            <div class="menu__ul_li-img_container">
+                                <img src="./src/images/icons/news.svg" class="menu__ul_li-img">
+                            </div>
+                            <p class="menu__ul_li-text">События</p>
+                        </li>
+                        <li class="menu_ul_li">
+                            <div class="menu__ul_li-img_container">
+                                <img src="./src/images/icons/sources.svg" class="menu__ul_li-img">
+                            </div>
+                            <p class="menu__ul_li-text">Источники</p>
+                        </li>
+                        <li class="menu_ul_li">
+                            <div class="menu__ul_li-img_container">
+                                <img src="./src/images/icons/region.svg" class="menu__ul_li-img">
+                            </div>
+                            <p class="menu__ul_li-text">Регионы</p>
+                        </li>
+                    </ul>
+                    <li class="menu_ul_li" id="contact_menu_bar">
+                        <div class="menu__ul_li-img_container">
+                            <img src="./src/images/icons/letter-i.svg" class="menu__ul_li-img" id="contact_menu-img">
+                        </div>
+                        <p class="menu__ul_li-text">Контакты</p>
+                    </li>
+                    <ul class="menu__ul menu__ul_anoth" id="contact_menu">
+                        <li class="menu_ul_li" id="number" onclick="clipboard('+7 904 229 92-04')">
+                            <div class="menu__ul_li-img_container">
+                                <img src="./src/images/icons/phone.svg" class="menu__ul_li-img">
+                            </div>
+                            <p class="menu__ul_li-text">+7 (904) 229 92-04</p>
+                        </li>
+                        <li class="menu_ul_li" id="email" onclick="clipboard('te8a@gmail.com')">
+                            <div class="menu__ul_li-img_container">
+                                <img src="./src/images/icons/mail.svg" class="menu__ul_li-img">
+                            </div>
+                            <p class="menu__ul_li-text">te8a@gmail.com</p>
+                        </li>
+                        <li class="menu_ul_li" id="telegram" onclick="clipboard('@astotux')">
+                            <div class="menu__ul_li-img_container">
+                                <img src="./src/images/icons/tg.svg" class="menu__ul_li-img">
+                            </div>
+                            <p class="menu__ul_li-text">@astotux</p>
+                        </li>
+                    </ul>
+                    <li id="logout">
+                        <a class="menu_ul_li" href="/login.html">
+                            <div class="menu__ul_li-img_container">
+                                <img src="./src/images/icons/sign-out.svg" class="menu__ul_li-img">
+                            </div>
+                            <p class="menu__ul_li-text">Выход</p>
+                        </a>
+                    </li>
+                </ul>
+        </div>
+    </header>
+    <main class="main" style="position: relative; z-index: 2;">
+        <section class="slider-section">
+            <div class="slider__top">
+                <p class="slider__title">Район</p>
+                <button class="slider__favorite-button" data-type="cities" id="slider_favorite_cities">
+                    <img src="./src/images/icons/like.svg" class="slider__favorite-img">
+                    <p class="slider__favorite-text">Только избранное</p> 
+                </button>
+            </div>
+            <div class="slider__bottom">
+                <div class="slider-container">
+                    <div class="slides-container">
+                        <div class="slides" id="slides_one">
+                        </div>
+                    </div>
+                </div>
+                <div class="buttons">
+                    <button class="btn-slide prev-btn" id="slider_left_one">
+                        <img src="./src/images/icons/arrow-left.svg" alt="">
+                    </button>
+                    <button class="btn-slide next-btn" id="slider_right_one">
+                        <img src="./src/images/icons/arrow-right.svg" alt="">
+                    </button>
+                </div>
+            </div>
+        </section>
+        <section class="slider-section">
+            <div class="slider__top">
+                <p class="slider__title">Источники</p>
+                <button class="slider__favorite-button" data-type="sources" id="slider_favorite_sources">
+                    <img src="./src/images/icons/like.svg" class="slider__favorite-img">
+                    <p class="slider__favorite-text">Только избранное</p> 
+                </button>
+            </div>
+            <div class="slider__bottom">
+                <div class="slider-container">
+                    <div class="slides-container">
+                        <div class="slides" id="slides_two">
+                        </div>
+                    </div>
+                </div>
+                <div class="buttons">
+                    <button class="btn-slide prev-btn" id="slider_left_two">
+                        <img src="./src/images/icons/arrow-left.svg" alt="">
+                    </button>
+                    <button class="btn-slide next-btn" id="slider_right_two">
+                        <img src="./src/images/icons/arrow-right.svg" alt="">
+                    </button>
+                </div>
+            </div>
+        </section>
+        <section class="news">
+            <div class="slider__top">
+                <p class="slider__title">События</p>
+                <div class="date-input_cont">
+                    <p>от</p>
+                    <div class="date-input_container">
+                        <input type="date" id="date-start" class="date-input">
+                    </div>
+                    <p>до</p>
+                    <div class="date-input_container">
+                        <input type="date" id="date-end" class="date-input">
+                    </div>
+                </div>
+                
+            </div>
+            <div class="news_container">
+            </div>
+            <div class="pagination">
+                <button class="pagination__btn btn-slide" id="prev-page">
+                    <img src="./src/images/icons/arrow-left.svg" alt="">
+                </button>
+                <div class="pagination__info">
+                    <span id="current-page">1</span> из <span id="total-pages">1</span>
+                </div>
+                <button class="pagination__btn btn-slide" id="next-page">
+                    <img src="./src/images/icons/arrow-right.svg" alt="">
+                </button>
+            </div>
+        </section>
+    </main>
+    <div id="app" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;"></div>
+    <footer class="footer" id="footer" style="z-index: 2;">
+        <div class="logo">
+            <img src="./src/images/icons/logo.svg" alt="" class="logo__img">
+            <p class="logo__text">MapNews</p>
+        </div>
+        <div class="weather">
+            <img src="./src/images/icons/weather.png" alt="" class="weather__img">
+            <p class="weather__info">-5°</p>
+        </div>
+    </footer>
+    <div class="menu__bar active" id="menu_bar">
+        <div class="menu__bar-line"></div>
+        <div class="menu__bar-line"></div>
+        <div class="menu__bar-line"></div>
+    </div>
+    <script type="module">
+        import { MapManager } from './src/components/Map.js';
+        import { NewsManager } from './src/components/NewsManager.js';
+        import { fetchCities, fetchSources } from './src/api/news.js';
+        import { LOCATION, POLYGON_STYLE, POLYGON_STYLE_ACTIVE } from './src/constants.js';
+        import { AuthManager } from './src/api/auth.js';
+        import { WeatherManager } from './src/api/weather.js';
+        import { newsItemManager } from './src/components/NewsItem.js';
+        import { FavoritesService } from './FavoritesService';
+        
+        window.newsItemManager = newsItemManager;
+
+        const auth = new AuthManager();
+        const weather = new WeatherManager();
+        window.POLYGON_STYLE = POLYGON_STYLE;
+        window.POLYGON_STYLE_ACTIVE = POLYGON_STYLE_ACTIVE;
+        
+        window.newsManager = new NewsManager();
+        let mapManager;
+
+        if (auth.isLoggedIn()) {
+            document.getElementById('logout').addEventListener('click', () => {
+                auth.logout();
+                window.location.href = '/login.html';
+            });
+        } else {
+            document.getElementById('slider_favorite_cities').classList.add('hidden');
+            document.getElementById('slider_favorite_sources').classList.add('hidden');
+        }
+        
+        weather.fetchWeather().then(weather => {
+            document.querySelector('.weather__info').textContent = `${Math.round(weather.temp)}°`;
+            document.querySelector('.weather__img').src = weather.icon;
+        });
+        
+        async function main() {
+            try {
+                await ymaps3.ready;
+                const { YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer } = ymaps3;
+                
+                mapManager = new MapManager('app', LOCATION, [
+                    new YMapDefaultSchemeLayer({ theme: 'dark', source: 'scheme', projection: "mercator" }),
+                    new YMapDefaultFeaturesLayer({})
+                ]);
+        
+                await new Promise(resolve => setTimeout(resolve, 100));
+        
+                const [cities, sources] = await Promise.all([
+                    fetchCities(),
+                    fetchSources()
+                ]);
+        
+                initializeCities(cities);
+                initializeSources(sources);
+                window.initializeSliders();
+                await window.newsManager.updateNews();
+
+                const preloader = document.getElementById('preloader');
+                preloader.classList.add('hidden');
+                
+                setTimeout(() => {
+                    preloader.remove();
+                }, 500);
+
+            } catch (error) {
+                console.error('Ошибка при инициализации:', error);
+                document.getElementById('preloader').classList.add('hidden');
+            }
+        }
+    
+        function initializeCities(cities) {
+            const sliderContainer = document.getElementById('slides_one');
+            sliderContainer.innerHTML = '';
+            
+            cities.forEach(city => {
+                sliderContainer.insertAdjacentHTML('beforeend', 
+                    `<div class="slide" id="slide_${city._id}" onclick='window.handleCityClick("${city._id}", "slide")'>
+                        <img src="${city.imageUrl}" class="slide-img">
+                        <p class="slide-text">${city.name}</p>
+                    </div>`
+                );
+                
+                mapManager.addCity(city, window.handleCityClick);
+            });
+        }
+    
+        function initializeSources(sources) {
+            const sourcesContainer = document.getElementById('slides_two');
+            sourcesContainer.innerHTML = '';
+            
+            sources.forEach(source => {
+                sourcesContainer.insertAdjacentHTML('beforeend',
+                    `<div class="slide" id="source_${source._id}" onclick='window.handleSourceClick("${source._id}")'>
+                        <img src="${source.imageUrl}" class="slide-img">
+                        <p class="slide-text">${source.title}</p>
+                    </div>`
+                );
+            });
+        }
+    
+        window.handleCityClick = (el_id, el_type) => {
+            const markerElement = document.getElementById(`marker_${el_id}`);
+            const slideElement = document.getElementById(`slide_${el_id}`);
+            const isActive = markerElement.classList.contains('active');
+            
+            markerElement.classList.toggle('active');
+            slideElement.classList.toggle('active');
+            
+            mapManager.updatePolygonStyle(el_id, !isActive);
+            window.newsManager.updateCity(el_id, isActive);
+        };
+
+        window.handleSourceClick = (el_id) => {
+            const sourceElement = document.getElementById(`source_${el_id}`);
+            const isActive = sourceElement.classList.contains('active');
+            sourceElement.classList.toggle('active');
+            window.newsManager.updateSource(el_id, isActive);
+        };
+    
+        main().catch(console.error);
+
+        async function updateUserInterface() {
+            const userSection = document.getElementById('userSection');
+            const userName = document.getElementById('userName');
+            const likedMenuBar = document.getElementById('liked_menu_bar');
+            const logoutButton = document.getElementById('logout');
+            
+            const user = await auth.getUserInfo();
+            
+            if (user) {
+                userName.textContent = user.name;
+                logoutButton.classList.add('menu_ul_li');
+                logoutButton.innerHTML = `
+                    <div class="menu__ul_li-img_container">
+                        <img src="./src/images/icons/sign-out.svg" class="menu__ul_li-img">
+                    </div>
+                    <p class="menu__ul_li-text">Выход</p>
+                `;
+            } else {
+                userSection.style.display = 'none';
+                likedMenuBar.style.display = 'none';
+                logoutButton.innerHTML = `
+                    <a class="menu_ul_li" href="/login.html">
+                    <div class="menu__ul_li-img_container">
+                        <img src="./src/images/icons/user-dark.svg" class="menu__ul_li-img">
+                    </div>
+                    <p class="menu__ul_li-text">Войти</p>
+                    </a>
+                `;
+            }
+        }
+
+        updateUserInterface();
+
+        const favoritesBtn = document.getElementById('favorites-btn');
+        const contentContainer = document.getElementById('content');
+
+        favoritesBtn.addEventListener('click', async () => {
+        try {
+            contentContainer.innerHTML = '<div class="loading">Загрузка избранного...</div>';
+            
+            const favorites = await FavoritesService.getFavorites('news');
+            
+            contentContainer.innerHTML = '';
+            
+            if (favorites.length === 0) {
+            contentContainer.innerHTML = '<p class="empty">У вас пока нет избранных новостей</p>';
+            return;
+            }
+            
+            favorites.forEach(news => {
+            const newsElement = createNewsElement(news);
+            contentContainer.appendChild(newsElement);
+            });
+            
+        } catch (error) {
+            console.error('Ошибка загрузки избранного:', error);
+            contentContainer.innerHTML = '<p class="error">Не удалось загрузить избранное</p>';
+        }
+        });
+
+        function createNewsElement(news) {
+        const element = document.createElement('div');
+        element.className = 'news-item';
+        element.innerHTML = `
+            <div class="new__item">
+                <div class="new__item-left">
+                    <img src="${news.imageUrl}" alt="${news.title}" class="new__item-img">
+                    <div class="new__item-img-info"> 
+                        <button data-type="news" data-id="685800aa692c248e3ca18fb2" class="new__like-btn ">
+                            <img src="./src/images/icons/like.svg" alt="" class="like-img">
+                        </button>
+                        <div class="new-time-container">
+                            <p class="new-time">Сегодня 16:01</p>
+                        </div>  
+                        <div class="new-city-container">
+                            <img src="${news.place_id.name}" alt="new" class="new-city-img">
+                            <p class="new-city-title">${news.place_id.name}</p>
+                        </div>
+                            </div>
+                        </div>
+                        <div class="new__item-right">
+                            <div class="top__item">
+                                <p class="new__title">${news.title}</p>
+                                <p class="new__text">${news.text}</p>
+                            </div>
+                        <div class="new__bottom">
+                        <div class="new-source-container">
+                            <img src="http://212.15.49.85:8080/images/sources/ko.png" alt="new" class="new-source-img">
+                            <p class="new-source-title">КомиОнлайн</p>
+                        </div>
+                        <div class="new__bottom__right">
+                            <div class="share-btn" onclick="clipboard('${news.newsUrl}')">
+                                <img src="./src/images/icons/share.png" alt="" class="share-img">
+                            </div>
+                            <a href="${news.newsUrl}" class="open-new" target="_blank">Перейти</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        const favBtn = element.querySelector('.favorite-btn');
+        favBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            await toggleFavorite(news._id, element);
+        });
+        
+        return element;
+        }
+
+        async function toggleFavorite(newsId, element) {
+        try {
+            await FavoritesService.removeFavorite('news', newsId);
+            
+            element.style.opacity = '0';
+            setTimeout(() => {
+            element.remove();
+            
+            if (!contentContainer.querySelector('.news-item')) {
+                contentContainer.innerHTML = '<p class="empty">У вас пока нет избранных новостей</p>';
+            }
+            }, 300);
+            
+        } catch (error) {
+            console.error('Ошибка удаления из избранного:', error);
+            alert('Не удалось удалить из избранного');
+        }
+        }
+    </script>
+
+    <script src="./src/js/header.js"></script>
+    <script src="./src/js/clipboard.js"></script>
+    <script src="./src/js/slider.js"></script>
+</body>
+</html>

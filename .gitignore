@@ -1,0 +1,7 @@
+mapnews_server/node_modules
+mapnews_client/node_modules
+mapnews_server/config.js
+mapnews_server/package.json
+mapnews_client/package.json
+mapnews_server/package-lock.json
+mapnews_client/package-lock.json
