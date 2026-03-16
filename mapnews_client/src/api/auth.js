@@ -1,3 +1,5 @@
+import { API_BASE_URL } from '../config.js';
+
 export class AuthManager {
     constructor() {
         this.token = localStorage.getItem('jwt_token');
@@ -8,7 +10,7 @@ export class AuthManager {
         if (!this.token) return null;
     
         try {
-            const response = await fetch('http://localhost:8080/api/auth/account', {
+            const response = await fetch(`${API_BASE_URL}/api/auth/account`, {
                 headers: {
                     'Authorization': `Bearer ${this.token}`,
                     'Content-Type': 'application/json'
@@ -28,7 +30,7 @@ export class AuthManager {
 
     async register(email, password, name) {
         try {
-            const response = await fetch('http://localhost:8080/api/auth/register', {
+            const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -54,7 +56,7 @@ export class AuthManager {
 
     async login(email, password) {
         try {
-            const response = await fetch('http://localhost:8080/api/auth/login', {
+            const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

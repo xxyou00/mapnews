@@ -1,0 +1,17 @@
+[build]
+  publish = "."
+
+# SPA 风格路由不需要，因为是多页面静态站点
+# 但需要处理 404 回退
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  conditions = {Role = ["admin"]}
+
+# 干净的 URL（可选）
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"

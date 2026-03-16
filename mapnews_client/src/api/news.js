@@ -1,3 +1,5 @@
+import { API_BASE_URL } from '../config.js';
+
 export const fetchNews = async (params) => {
     try {
         const queryParams = new URLSearchParams();
@@ -13,7 +15,7 @@ export const fetchNews = async (params) => {
         if (params.page) queryParams.append('page', params.page.toString());
         if (params.limit) queryParams.append('limit', params.limit.toString());
 
-        const url = `http://localhost:8080/api/news?${queryParams.toString()}`;
+        const url = `${API_BASE_URL}/api/news?${queryParams.toString()}`;
 
         const response = await fetch(url, {
             method: 'GET',
@@ -44,7 +46,7 @@ export const fetchNews = async (params) => {
 
 export const fetchCities = async () => {
     try {
-        const response = await fetch('http://localhost:8080/api/cities', {
+        const response = await fetch(`${API_BASE_URL}/api/cities`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -68,7 +70,7 @@ export const fetchCities = async () => {
 
 export const fetchSources = async () => {
     try {
-        const response = await fetch('http://localhost:8080/api/sources', {
+        const response = await fetch(`${API_BASE_URL}/api/sources`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

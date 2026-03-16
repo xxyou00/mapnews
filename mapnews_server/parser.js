@@ -7,12 +7,12 @@ const cron = require('node-cron');
 const Source = require('./models/sourceSchema');
 const User = require('./models/userSchema');
 const News = require('./models/newsSchema');
+const { MONGO_URI } = require('./config');
 
 const formatDate = require('./utils/formatDateKI')
 
 const app = express();
-const PORT = 4444;
-const MONGO_URI = 'mongodb+srv://admin:M1k9MhBwTjHMvnQn@cluster0.eze8dor.mongodb.net/news'; // Подключение к MongoDB
+const PORT = process.env.PARSER_PORT || 4444;
 
 mongoose.connect(MONGO_URI)
     .then(() => console.log('MongoDB подключен'))
