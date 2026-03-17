@@ -241,4 +241,16 @@ cron.schedule('*/10 * * * *', () => {
     parseNewsAIF();
 });
 
-console.log('Cron парсер инициализирован (каждые 10 минут)');
+// 每天凌晨 3 点清理超过 1 年的旧新闻
+cron.schedule('0 3 * * *', async () => {
+    try {
+        const oneYearAgo = new Date();
+        oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+        const result = await News.deleteMany({ dateTime: { $lt: oneYearAgo } });
+        console.log(`Очистка: удалено ${result.deletedCount} новостей старше 1 года`);
+    } catch (error) {
+        console.error('Ошибка очистки старых новостей:', error);
+    }
+});
+
+console.log('Cron парсер инициализирован (парсинг: каждые 10 мин, очистка: ежедневно в 03:00)');

@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="src/css/styles.css" />
     <link rel="stylesheet" href="src/css/reset.css" />
     <script crossorigin src="https://cdn.jsdelivr.net/npm/@babel/standalone@7/babel.min.js"></script>
-    <script src="https://api-maps.yandex.ru/v3/?apikey=85daff78-40ea-4ef0-9a88-8f36b0551e66&lang=ru_RU"></script>
+    <script src="https://api-maps.yandex.ru/v3/?apikey=4a5b854d-96e5-4c79-a645-30394876ec4c&lang=ru_RU"></script>
 </head>
 <body>
 
@@ -201,7 +201,7 @@
         import { AuthManager } from './src/api/auth.js';
         import { WeatherManager } from './src/api/weather.js';
         import { newsItemManager } from './src/components/NewsItem.js';
-        import { FavoritesService } from './FavoritesService';
+        import { FavoritesService } from './src/api/favorites.js';
         
         window.newsItemManager = newsItemManager;
 
@@ -350,6 +350,7 @@
         const favoritesBtn = document.getElementById('favorites-btn');
         const contentContainer = document.getElementById('content');
 
+        if (favoritesBtn) {
         favoritesBtn.addEventListener('click', async () => {
         try {
             contentContainer.innerHTML = '<div class="loading">Загрузка избранного...</div>';
@@ -373,6 +374,7 @@
             contentContainer.innerHTML = '<p class="error">Не удалось загрузить избранное</p>';
         }
         });
+        }
 
         function createNewsElement(news) {
         const element = document.createElement('div');
