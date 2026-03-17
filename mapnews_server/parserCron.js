@@ -241,8 +241,8 @@ cron.schedule('*/10 * * * *', () => {
     parseNewsAIF();
 });
 
-// 每天凌晨 3 点清理超过 1 年的旧新闻
-cron.schedule('0 3 * * *', async () => {
+// 每月 1 号凌晨 3 点清理超过 1 年的旧新闻
+cron.schedule('0 3 1 * *', async () => {
     try {
         const oneYearAgo = new Date();
         oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
@@ -253,4 +253,4 @@ cron.schedule('0 3 * * *', async () => {
     }
 });
 
-console.log('Cron парсер инициализирован (парсинг: каждые 10 мин, очистка: ежедневно в 03:00)');
+console.log('Cron парсер инициализирован (парсинг: каждые 10 мин, очистка: 1-го числа каждого месяца в 03:00)');
